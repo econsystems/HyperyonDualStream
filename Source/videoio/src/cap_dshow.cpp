@@ -830,7 +830,6 @@ public:
 			{
 				EnterCriticalSection(&critSection);
 
-				pixels = new unsigned char[latestBufferLength];
 				memcpy(pixels, ptrBuffer, latestBufferLength);
 
 				newFrame = true;
@@ -943,6 +942,8 @@ void videoDevice::setSize(int w, int h) {
 			videoSize = w * h * 1.5;
 		else if ((pAmMediaType->subtype == MEDIASUBTYPE_YUY2 || pAmMediaType->subtype == MEDIASUBTYPE_UYVY || pAmMediaType->subtype == MEDIASUBTYPE_YUYV) && !ConvertRGB)
 			videoSize = w * h * 2;
+		else if (pAmMediaType->subtype == MEDIASUBTYPE_H264)
+			videoSize = w * h * 3;
 		else
 			videoSize = w * h * 3;
 
@@ -3630,8 +3631,9 @@ int videoInput::start(int deviceID, videoDevice *VD) {
 
 	mt.majortype = MEDIATYPE_Video;
 	//Included conditional based format by e-con
-	if (checkSingleByteFormat(VD->pAmMediaType->subtype) || (VD->pAmMediaType->subtype == MEDIASUBTYPE_Y16) || (VD->pAmMediaType->subtype == MEDIASUBTYPE_Y12) ||
-		(VD->pAmMediaType->subtype == MEDIASUBTYPE_YUYV) || (VD->pAmMediaType->subtype == MEDIASUBTYPE_YUY2) || (VD->pAmMediaType->subtype == MEDIASUBTYPE_UYVY))
+	if (checkSingleByteFormat(VD->pAmMediaType->subtype) || (VD->pAmMediaType->subtype == MEDIASUBTYPE_Y16) || (VD->pAmMediaType->subtype == MEDIASUBTYPE_Y12))
+		mt.subtype = VD->pAmMediaType->subtype;
+	else if((VD->pAmMediaType->subtype == MEDIASUBTYPE_YUYV) || (VD->pAmMediaType->subtype == MEDIASUBTYPE_YUY2) || (VD->pAmMediaType->subtype == MEDIASUBTYPE_UYVY))
 	{
 		if (!VD->ConvertRGB) // by Murali
 		{

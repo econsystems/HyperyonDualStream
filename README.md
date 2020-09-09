@@ -38,9 +38,10 @@ Both nodes can be configured as required.(Note: some UVC settings are common for
 
 	* e-CAM22_USB (Dual Stream)
 
-## Releases
-* Initial Commit
+## Release note
+* Windows video recording using FFMPEG (libavcodec).
 
 ## Release
+* HyperyonCam v1.0.1		-	08-Sep-20
 * HyperyonCam v1.0.0		-	12-Aug-20
 
